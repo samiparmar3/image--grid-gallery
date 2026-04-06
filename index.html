@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Image Gallery</title>
+
+<style>
+:root {
+    --bg-color: #f9fafb;
+    --text-main: #111827;
+    --accent: #2563eb;
+    --nav-bg: #222;
+    --transition: 0.3s ease;
+}
+
+/* 🌙 Dark Mode */
+.dark-mode {
+    --bg-color: #111827;
+    --text-main: #f9fafb;
+    --nav-bg: #000;
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family: 'Segoe UI', sans-serif;
+    background: var(--bg-color);
+    color: var(--text-main);
+    transition: var(--transition);
+}
+
+.container{
+    margin:20px;
+    padding:20px;
+}
+
+/* NAVBAR */
+.navbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    border:2px solid black;
+    padding:10px 20px;
+    border-radius:50px;
+    background: var(--nav-bg);
+}
+
+.dark-mode .navbar{
+    border:2px solid white;
+}
+
+.nav-links{
+    display:flex;
+    gap:15px;
+}
+
+.navbar a{
+    text-decoration:none;
+    color:white;
+    padding:5px 10px;
+    transition:0.3s;
+}
+
+.navbar a:hover{
+    background:white;
+    color:var(--accent);
+    border-radius:20px;
+}
+
+#mode{
+    cursor:pointer;
+    background: var(--accent);
+    color:white;
+    border:none;
+    padding:5px 12px;
+    border-radius:20px;
+}
+
+/* GRID */
+.grid{
+    margin-top:20px;
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:20px;
+}
+
+/* IMAGE */
+.img-container{
+    width:100%;
+    height:200px;
+    object-fit:cover;
+    border-radius:15px;
+    box-shadow:0 5px 10px rgba(0,0,0,0.2);
+    transition:0.3s;
+}
+
+.img-container:hover{
+    transform:scale(1.05);
+}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+    .grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+}
+
+@media(max-width:500px){
+    .grid{
+        grid-template-columns:repeat(1,1fr);
+    }
+}
+
+#lightbox{
+    position: fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background: rgba(0,0,0,0.9);
+    display:none;
+    justify-content:center;
+    align-items:center;
+    z-index:2000;
+}
+
+#lightbox img{
+    max-width:90%;
+    max-height:80%;
+    border-radius:10px;
+}
+
+#close{
+    position:absolute;
+    top:20px;
+    right:30px;
+    font-size:30px;
+    color:white;
+    cursor:pointer;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="navbar">
+    <h3 style="color:white;">Image Gallery</h3>
+
+    <div class="nav-links">
+        <a href="#">Home</a>
+        <a href="#">Animal</a>
+        <a href="#">Nature</a>
+        <a href="#">Historical</a>
+        <a href="#">Seas</a>
+    </div>
+
+    <button id="mode" onclick="togglemode()">🌙 Mode</button>
+</div>
+
+<div class="grid">
+    <img src="☆.jpg" class="img-container" data-large="☆.jpg">
+    <img src="art-vts-high-resolution.jpg" class="img-container" data-large="art-vts-high-resolution.jpg">
+    <img src="download (1).jpg" class="img-container" data-large="download (1).jpg">
+    <img src="download (2).jpg" class="img-container" data-large="download (2).jpg">
+    <img src="download (3).jpg" class="img-container" data-large="download (3).jpg">
+    <img src="Dreamy Pink Moon & Cherry Blossom Tree Wallpaper for iPad Pro.jpg" class="img-container" data-large="Dreamy Pink Moon & Cherry Blossom Tree Wallpaper for iPad Pro.jpg">
+    <img src="lala.jpg" class="img-container" data-large="lala.jpg">
+    <img src="PC Wallpaper.jpg" class="img-container" data-large="PC Wallpaper.jpg">
+    <img src="Phonk.jpg" class="img-container" data-large="Phonk.jpg">
+</div>
+<div id="lightbox">
+    <span id="close">&times;</span>
+    <img id="lightbox-img">
+</div>
+
+</div>
+
+<script>
+function togglemode(){
+    document.body.classList.toggle("dark-mode");
+}
+
+let images = document.querySelectorAll(".img-container");
+let lightbox = document.getElementById("lightbox");
+let lightboxImg = document.getElementById("lightbox-img");
+let closeBtn = document.getElementById("close");
+
+images.forEach(img => {
+    img.addEventListener("click", function(){
+        let newImage = this.getAttribute("data-large");
+        lightbox.style.display = "flex";
+        lightboxImg.src = newImage;
+    });
+});
+
+// Close button
+closeBtn.addEventListener("click", function(){
+    lightbox.style.display = "none";
+});
+
+lightbox.addEventListener("click", function(e){
+    if(e.target !== lightboxImg){
+        lightbox.style.display = "none";
+    }
+});
+
+</script>
+
+</body>
+</html>
